@@ -16,6 +16,8 @@ public class XMethods{
     public HardwareMap hm;
     
     public DcMotor redMotor , blueMotor, greenMotor, yellowMotor;
+    public RevBlinkinLedDriver blinkin;
+    RevBlinkinLedDriver.BlinkinPattern pattern;
     
     public void init(HardwareMap ahwMap){
     
@@ -25,6 +27,7 @@ public class XMethods{
     yellowMotor = hm.get(DcMotor.class, "yellowMotor");
     greenMotor  = hm.get(DcMotor.class, "greenMotor");
     blueMotor = hm.get(DcMotor.class, "blueMotor");
+    blinkin = hm.get(RevBlinkinLedDriver.class,"blinkin");
 
     redMotor.setDirection(DcMotor.Direction.FORWARD);
     yellowMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -34,14 +37,20 @@ public class XMethods{
     }   
     public void Move(float x1,float y1,float x2, float currentSpeedX){
         double yellowPower = Range.clip(y1 - x2 * xC.getSensitivity(),-xC.getTopSpeedY() / 2, xC.getTopSpeedY());
-        double redPower = Range.clip(-currentSpeedX * x1 - x2 * xC.getSensitivity(),-xC.getTopSpeedX() / 2, xC.getTopSpeedX());
+        double redPower = Range.clip(-currentSpeedX * x1 - x2 * xC.getSensitivity(),-xC.getTopSpeedX() / 2, xC.getTopSpeedX() / 2);
         double greenPower = Range.clip(y1 + x2 * xC.getSensitivity(),-xC.getTopSpeedY() / 2, xC.getTopSpeedY());
-        double bluePower = Range.clip(-currentSpeedX * x1 + x2 * xC.getSensitivity(),-xC.getTopSpeedX() / 2, xC.getTopSpeedX());
+        double bluePower = Range.clip(-currentSpeedX * x1 + x2 * xC.getSensitivity(),-xC.getTopSpeedX() / 2 , xC.getTopSpeedX() / 2);
+        if(currentSpeedX < 0){
         yellowMotor.setPower(yellowPower);
         blueMotor.setPower(bluePower);
         greenMotor.setPower(greenPower);
         redMotor.setPower(redPower);
-
+        }else{
+        yellowMotor.setPower(yellowPower);
+        blueMotor.setPower(-bluePower);
+        greenMotor.setPower(greenPower);
+        redMotor.setPower(-redPower);
+        }
     }
 }
 

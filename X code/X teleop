@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 
 @TeleOp(name="XKart", group="Iterative Opmode")
@@ -48,10 +49,33 @@ public class XTeleop extends OpMode
         float x1 = gamepad1.left_stick_x;
         float x2 = gamepad1.right_stick_x;
         float input = gamepad1.left_trigger - gamepad1.right_trigger;
-        if(runtime.seconds() > 0.1){
-            currentSpeedX =(float) (currentSpeedX + input * xC.getAcceleration());
-            currentSpeedY = (float) (currentSpeedX + input * xC.getAcceleration());
+        
+        //accel code
+        
+        if(input >= 0){
+            xM.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        }else{
+            xM.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
+        
+        if(runtime.seconds() > 0.1 && input != 0 && currentSpeedX < xC.getTopSpeedY() && currentSpeedX > -xC.getTopSpeedY() / 2){
+            currentSpeedX =(float) (currentSpeedX + 2 * input * xC.getAcceleration());
+            currentSpeedY = (float) (currentSpeedX + 2 *input * xC.getAcceleration());
+        }
+        
+        // power goes to 0 if not touched
+        
+        if(runtime.seconds() > 0.1 && input == 0 && currentSpeedX > 0){
+            currentSpeedX =(float) (currentSpeedX - xC.getAcceleration());
+            currentSpeedY = (float) (currentSpeedX - xC.getAcceleration());
+        }
+        if(runtime.seconds() > 0.1 && input == 0 && currentSpeedX < 0){
+            currentSpeedX =(float) (currentSpeedX + 2 * xC.getAcceleration());
+            currentSpeedY = (float) (currentSpeedX + 2 * xC.getAcceleration());
+        }
+        
+        telemetry.addData("input",input);
+        telemetry.addData("speed",currentSpeedX);
         
         xM.Move(x1, currentSpeedY, x2, currentSpeedX);
 
