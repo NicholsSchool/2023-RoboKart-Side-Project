@@ -36,9 +36,9 @@ public class XMethods{
         
     }   
     public void Move(float x1,float y1,float x2, float currentSpeedX){
-        double yellowPower = Range.clip(y1 - x2 * xC.getSensitivity(),-xC.getTopSpeedY() / 2, xC.getTopSpeedY());
+        double yellowPower = Range.clip(y1 + x2 * xC.getSensitivity(),-xC.getTopSpeedY() / 2, xC.getTopSpeedY());
         double redPower = Range.clip(-currentSpeedX * x1 - x2 * xC.getSensitivity(),-xC.getTopSpeedX() / 2, xC.getTopSpeedX() / 2);
-        double greenPower = Range.clip(y1 + x2 * xC.getSensitivity(),-xC.getTopSpeedY() / 2, xC.getTopSpeedY());
+        double greenPower = Range.clip(y1 - x2 * xC.getSensitivity(),-xC.getTopSpeedY() / 2, xC.getTopSpeedY());
         double bluePower = Range.clip(-currentSpeedX * x1 + x2 * xC.getSensitivity(),-xC.getTopSpeedX() / 2 , xC.getTopSpeedX() / 2);
         if(currentSpeedX < 0){
         yellowMotor.setPower(yellowPower);
