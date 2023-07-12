@@ -1,20 +1,22 @@
-public class xConstants{
+package org.firstinspires.ftc.teamcode;
+
+public class XConstants{
     
     double acceleration = 0.1;
-    double top speedX= 0.8;
-    double top speedY= 0.5;
+    double topSpeedX = 0.8;
+    double topSpeedY = 0.5;
     double sensitivity = 0.2;
 
-    public getAcceleration(){ 
+    public double getAcceleration(){ 
         return acceleration;
     }
-    public getTopSpeedX(){
+    public double getTopSpeedX(){
         return topSpeedX;
     }
-    public getTopSpeedY(){
+    public double getTopSpeedY(){
         return topSpeedY;
     }
-    public getSensitivity(){
+    public double getSensitivity(){
         return sensitivity;
     }
 

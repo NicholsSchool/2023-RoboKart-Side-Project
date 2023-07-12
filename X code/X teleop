@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,14 +8,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
-public class BasicOpMode_Iterative extends OpMode
+@TeleOp(name="XKart", group="Iterative Opmode")
+public class XTeleop extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    public XMethods xM = new XMethods();
+    public XConstants xC = new XConstants();
     float currentSpeedX;
     float currentSpeedY;
-    
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -23,7 +25,7 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-
+        xM.init(hardwareMap);
     }
 
     /*
@@ -42,23 +44,16 @@ public class BasicOpMode_Iterative extends OpMode
     
     @Override
     public void loop() {
-        public xMethods xM = new xMethods();
         
-        float x1 = gamepad1.left_stick_x
+        float x1 = gamepad1.left_stick_x;
         float x2 = gamepad1.right_stick_x;
         float input = gamepad1.left_trigger - gamepad1.right_trigger;
         if(runtime.seconds() > 0.1){
-            currentSpeedX = currentSpeedX + input * xC.getAcceleration();
-            currentSpeedY = currentSpeedX + input * xC.getAcceleration();
+            currentSpeedX =(float) (currentSpeedX + input * xC.getAcceleration());
+            currentSpeedY = (float) (currentSpeedX + input * xC.getAcceleration());
         }
         
-        xM.Move(x1, currentSpeedY, x2, currentSpeedX)
-
-        
-
-
-        
-       
+        xM.Move(x1, currentSpeedY, x2, currentSpeedX);
 
 
     }
