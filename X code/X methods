@@ -1,0 +1,61 @@
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+
+public class xMethods{
+    
+    public DcMotor redMotor , blueMotor, greenMotor, yellowMotor;
+    
+    xConstants xC = new xConstants();
+
+    redMotor = hardwareMap.get(DcMotor.class, "redMotor");
+    blueMotor = hardwareMap.get(DcMotor.class, "blueMotor");
+    greenMotor = hardwareMap.get(DcMotor.class, "greenMotor");
+    yellowMotor = hardwareMap.get(DcMotor.class, "yellowMotor");
+
+    redMotor.setDirection(DcMotor.Direction.FORWARD);
+    yellowMotor.setDirection(DcMotor.Direction.FORWARD);
+    greenMotor.setDirection(DcMotor.Direction.REVERSE);
+    blueMotor.setDirection(DcMotor.Direction.REVERSE);
+
+    
+
+    public move(float x1,float y1,float x2, currentSpeedX){
+        yellowPower = Range.clip(y1 - x2 * xC.getSenstitvity(),-xC.getTopSpeedY / 2, xC.getTopSpeedY);
+        redPower = Range.clip(-currentSpeedX * x1 - x2 * xC.getSenstitvity(),-xC.getTopSpeedX / 2, xC.getTopSpeedX);
+        greenPower = Range.clip(y1 + x2 * xC.getSenstitvity(),-xC.getTopSpeedY / 2, xC.getTopSpeedY);
+        bluePower = Range.clip(-currentSpeedX * x1 + x2 * xC.getSenstitvity(),-xC.getTopSpeedX / 2, xC.getTopSpeedX);
+        yellowMotor.setPower(yellowPower);
+        blueMotor.setPower(bluePower);
+        greenMotor.setPower(greenPower);
+        redMotor.setPower(redPower);
+
+    }
+    public oilSlick(float x1, float y1){
+        yellowPower = Range.clip(y1 - 0.5,-xC.getTopSpeedY / 2, xC.getTopSpeedY);
+        redPower = Range.clip(-x1 - 0.5,-xC.getTopSpeedX / 2, xC.getTopSpeedX);
+        greenPower = Range.clip(y1 + 0.5,-xC.getTopSpeedY / 2, xC.getTopSpeedY);
+        bluePower = Range.clip(-x1 + 0.5,-xC.getTopSpeedX / 2, xC.getTopSpeedX);
+        yellowMotor.setPower(yellowPower);
+        blueMotor.setPower(bluePower);
+        greenMotor.setPower(greenPower);
+        redMotor.setPower(redPower);
+
+    }
+
+    public bananna(){
+
+    }
+    public accelerate(float currentSpeedX,float currentSpeedY,float input){
+        currentSpeedX = currentSpeedX + xC.getAccelerationX
+        currentSpeedX = currentSpeedY + xC.getAccelerationY
+        return currentSpeedX;
+        return currentSpeedY;
+    }
+
+
+
+  
+}
