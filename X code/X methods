@@ -45,11 +45,7 @@ public class XMethods{
         blueMotor.setPower(bluePower);
         greenMotor.setPower(greenPower);
         redMotor.setPower(redPower);
-        }else{
-        yellowMotor.setPower(yellowPower);
-        blueMotor.setPower(-bluePower);
-        greenMotor.setPower(greenPower);
-        redMotor.setPower(-redPower);
+        }
         }
     }
 }
