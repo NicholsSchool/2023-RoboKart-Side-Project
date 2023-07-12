@@ -48,7 +48,7 @@ public class XTeleop extends OpMode
         
         float x1 = gamepad1.left_stick_x;
         float x2 = gamepad1.right_stick_x;
-        float input = gamepad1.left_trigger - gamepad1.right_trigger;
+        float input = gamepad1.left_trigger - gamepad1.right_trigger;;
         
         //accel code
         
@@ -70,10 +70,17 @@ public class XTeleop extends OpMode
         if(gamepad1.a){
             xM.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
         }
-        
-        if(runtime.seconds() > 0.1 && input != 0 && currentSpeedX < xC.getTopSpeedY() && currentSpeedX > -xC.getTopSpeedY() / 2){
+        //current speed x = current speed y, not sure why past me made two variables.
+        if(runtime.seconds() > 0.1 && input < 0 && currentSpeedX < xC.getTopSpeedY()){
             currentSpeedX =(float) (currentSpeedX + 2 * input * xC.getAcceleration());
             currentSpeedY = (float) (currentSpeedX + 2 *input * xC.getAcceleration());
+            runtime.reset();
+            
+        }
+        if(runtime.seconds() > 0.1 && input > 0 && currentSpeedX > -xC.getTopSpeedY() / 2){
+            currentSpeedX =(float) (currentSpeedX + 2 * input * xC.getAcceleration());
+            currentSpeedY = (float) (currentSpeedX + 2 *input * xC.getAcceleration());
+            runtime.reset();
         }
         
         // power goes to 0 if not touched
@@ -81,10 +88,12 @@ public class XTeleop extends OpMode
         if(runtime.seconds() > 0.1 && input == 0 && currentSpeedX > 0){
             currentSpeedX =(float) (currentSpeedX - xC.getAcceleration());
             currentSpeedY = (float) (currentSpeedX - xC.getAcceleration());
+            runtime.reset();
         }
         if(runtime.seconds() > 0.1 && input == 0 && currentSpeedX < 0){
             currentSpeedX =(float) (currentSpeedX + 2 * xC.getAcceleration());
             currentSpeedY = (float) (currentSpeedX + 2 * xC.getAcceleration());
+            runtime.reset();
         }
         
         telemetry.addData("input",input);
