@@ -1,0 +1,21 @@
+public class xConstants{
+    
+    double acceleration = 0.1;
+    double top speedX= 0.8;
+    double top speedY= 0.5;
+    double sensitivity = 0.2;
+
+    public getAcceleration(){ 
+        return acceleration;
+    }
+    public getTopSpeedX(){
+        return topSpeedX;
+    }
+    public getTopSpeedY(){
+        return topSpeedY;
+    }
+    public getSensitivity(){
+        return sensitivity;
+    }
+
+}
