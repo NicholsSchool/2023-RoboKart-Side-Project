@@ -48,7 +48,7 @@ public class XTeleop extends OpMode
         
         float x1 = gamepad1.left_stick_x;
         float x2 = gamepad1.right_stick_x;
-        float input = gamepad1.left_trigger - gamepad1.right_trigger;;
+        float input = gamepad1.right_trigger - gamepad1.left_trigger;;
         
         //accel code
         
