@@ -69,10 +69,6 @@ public class XHardwareMap{
     public void oilSlick(double forward){
         double yellowPower = forward - 1 * sensitivity;
             double greenPower = forward + 1 * sensitivity;
-            double redPower = strafe - 1 * sensitivity;
-            double bluePower = forward + 1 * sensitivity;
-            blueMotor.setPower(bluePower * topSpeed);
-            redMotor.setPower(redPower * topSpeed);
             yellowMotor.setPower(yellowPower * topSpeed);
             greenMotor.setPower(greenPower * topSpeed);
         }
