@@ -78,21 +78,25 @@ public class XHardwareMap{
         }
     
     public status(int red, int green, int blue){
-        // 1 is red 2 is green 3 is blue 4 is yellow
+        // 1 is red 2 is green 3 is blue 4 is yellow 0 is none
         int color = 0
         if(red > 200 && green < 200){
             color = 1;
         }
         if(green > 200 && red < 200){
-            color = 2
+            color = 2;
         }
         if(blue > 200){
-            color = 3
+            color = 3;
         }
         if(red > 200 && green > 200){
-            color = 4
+            color = 4;
+        }
+        if(red < 200 && green < 200 && blue < 200){
+            color = 0;
         }
         return color;
+
     }
 
 
