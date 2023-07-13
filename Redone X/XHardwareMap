@@ -19,7 +19,7 @@ public class XHardwareMap{
 
     private ElapsedTime period = new ElapsedTime();
 
-    public xDriveHardwareMap(){
+    public void xDriveHardwareMap(){
     }
     public void init( HardwareMap ahwMap ) 
     {
@@ -31,16 +31,15 @@ public class XHardwareMap{
         yellowMotor = hwMap.get(DcMotor.class, "yellowMotor");
         blueMotor = hwMap.get(DcMotor.class, "blueMotor");
         blinkin = hwMap.get(RevBlinkinLedDriver.class,"blinkin");
-        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
         
         yellowMotor.setDirection(DcMotor.Direction.FORWARD);
         redMotor.setDirection(DcMotor.Direction.FORWARD);
         blueMotor.setDirection(DcMotor.Direction.REVERSE);
         greenMotor.setDirection(DcMotor.Direction.REVERSE);
     }
-    RevBlinkinLedDriver.BlinkinPattern pattern;
 
-    public move(double forward, double strafe, double turn){
+    public void move(double forward, double strafe, double turn){
             double yellowPower = forward - turn;
             double greenPower = forward + turn;
             double redPower = strafe - turn;
@@ -50,13 +49,7 @@ public class XHardwareMap{
             yellowMotor.setPower(yellowPower);
             greenMotor.setPower(greenPower);
         }
-        public color(){
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-        }
-    
-    
+        
     
 
 }
