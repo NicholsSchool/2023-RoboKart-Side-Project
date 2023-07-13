@@ -7,11 +7,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import java.util.concurrent.TimeUnit;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 public class XHardwareMap{
     public DcMotor redMotor , blueMotor, greenMotor, yellowMotor;
     public RevBlinkinLedDriver blinkin = null;
     RevBlinkinLedDriver.BlinkinPattern pattern;
+    ColorSensor colorSensor;
 
     HardwareMap hwMap = null;
 
@@ -29,6 +31,7 @@ public class XHardwareMap{
         yellowMotor = hwMap.get(DcMotor.class, "yellowMotor");
         blueMotor = hwMap.get(DcMotor.class, "blueMotor");
         blinkin = hwMap.get(RevBlinkinLedDriver.class,"blinkin");
+        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
         
         yellowMotor.setDirection(DcMotor.Direction.FORWARD);
         redMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -36,4 +39,24 @@ public class XHardwareMap{
         greenMotor.setDirection(DcMotor.Direction.REVERSE);
     }
     RevBlinkinLedDriver.BlinkinPattern pattern;
+
+    public move(double forward, double strafe, double turn){
+            double yellowPower = forward - turn;
+            double greenPower = forward + turn;
+            double redPower = strafe - turn;
+            double bluePower = forward + turn;
+            blueMotor.setPower(bluePower);
+            redMotor.setPower(redPower);
+            yellowMotor.setPower(yellowPower);
+            greenMotor.setPower(greenPower);
+        }
+        public color(){
+            telemetry.addData("Red", color.red());
+            telemetry.addData("Green", color.green());
+            telemetry.addData("Blue", color.blue());
+        }
+    
+    
+    
+
 }
