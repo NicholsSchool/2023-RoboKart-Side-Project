@@ -1,0 +1,39 @@
+package org.firstinspires.ftc.teamcode;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import java.util.concurrent.TimeUnit;
+
+public class XHardwareMap{
+    public DcMotor redMotor , blueMotor, greenMotor, yellowMotor;
+    public RevBlinkinLedDriver blinkin = null;
+    RevBlinkinLedDriver.BlinkinPattern pattern;
+
+    HardwareMap hwMap = null;
+
+    private ElapsedTime period = new ElapsedTime();
+
+    public xDriveHardwareMap(){
+    }
+    public void init( HardwareMap ahwMap ) 
+    {
+        // Save reference to Hardware map
+        HardwareMap hwMap = ahwMap;  
+        
+        redMotor  = hwMap.get(DcMotor.class, "redMotor");
+        greenMotor  = hwMap.get(DcMotor.class, "greenMotor");
+        yellowMotor = hwMap.get(DcMotor.class, "yellowMotor");
+        blueMotor = hwMap.get(DcMotor.class, "blueMotor");
+        blinkin = hwMap.get(RevBlinkinLedDriver.class,"blinkin");
+        
+        yellowMotor.setDirection(DcMotor.Direction.FORWARD);
+        redMotor.setDirection(DcMotor.Direction.FORWARD);
+        blueMotor.setDirection(DcMotor.Direction.REVERSE);
+        greenMotor.setDirection(DcMotor.Direction.REVERSE);
+    }
+    RevBlinkinLedDriver.BlinkinPattern pattern;
+}
