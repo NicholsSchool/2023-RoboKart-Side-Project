@@ -16,6 +16,7 @@ public class XTeleopV2 extends OpMode
     private ElapsedTime runtime = new ElapsedTime();
     private XHardwareMap robot = new XHardwareMap();
     ColorSensor colorSensor = null;
+    int status;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -43,16 +44,32 @@ public class XTeleopV2 extends OpMode
     
     @Override
     public void loop() {
-        robot.move(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-        if(colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green()){
-           robot.oilSlick(gamepad1.left_stick_y); 
-        }
-        if(colorSensor.blue() < colorSensor.red() && colorSensor.red() > colorSensor.green()){
-           robot.speedBoost(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue());
+        switch(status){
+        case 0:
+            robot.move(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            break;
+        case 1:
+            robot.speedBuffer(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            break;
+        case 2:
+            robot.oilSlick(gamepad1.left_stick_x,gamepad1.left_stick_y);
+            break;
+        case 3:
+            robot.speedBoost(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            break;
+        case 4: 
+            robot.bannana();
+            break;
         }
         
-        telemetry.addData("blue",colorSensor.blue());
-        robot.colorToLights(colorSensor.red(),colorSensor.green(),colorSensor.blue());
+        robot.colorToLights(status);
+        
+        telemetry.addData("status",status);
+    
+        
+        
+        
     }
 
     /*
