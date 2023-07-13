@@ -13,14 +13,14 @@ public class XHardwareMap{
     public DcMotor redMotor , blueMotor, greenMotor, yellowMotor;
     public RevBlinkinLedDriver blinkin = null;
     RevBlinkinLedDriver.BlinkinPattern pattern;
-    ColorSensor colorSensor;
-    double topSpeed = 0.7;
-    double sensitivity = 0.2;
+    ColorSensor colorSensor = null;
+    double topSpeed = 0.4;
+    double sensitivity = 0.4;
     double acceleration = 0.1;
 
     HardwareMap hwMap = null;
 
-    private ElapsedTime time = new ElapsedTime();
+    private ElapsedTime period = new ElapsedTime();
 
     public void xDriveHardwareMap(){
     }
@@ -42,18 +42,29 @@ public class XHardwareMap{
         greenMotor.setDirection(DcMotor.Direction.REVERSE);
     }
 
-    public void move(double forward, double strafe, double turn){
+        public void move(double forward, double strafe, double turn){
             double yellowPower = forward - turn * sensitivity;
             double greenPower = forward + turn * sensitivity;
-            double redPower = strafe - turn * sensitivity;
-            double bluePower = forward + turn * sensitivity;
+            double redPower = -strafe - turn * sensitivity;
+            double bluePower = -strafe + turn * sensitivity;
             blueMotor.setPower(bluePower * topSpeed);
             redMotor.setPower(redPower * topSpeed);
             yellowMotor.setPower(yellowPower * topSpeed);
             greenMotor.setPower(greenPower * topSpeed);
         }
-        
-    public void colorToLights(int red, int green, int blue){
+        public void oilSlick(double forward){
+            double yellowPower = forward - 10 * sensitivity;
+            double greenPower = forward + 10 * sensitivity;
+            double redPower = -10 * sensitivity;
+            double bluePower = 10 * sensitivity;
+            yellowMotor.setPower(yellowPower * topSpeed);
+            greenMotor.setPower(greenPower * topSpeed);
+            redMotor.setPower(redPower * topSpeed);
+            blueMotor.setPower(bluePower * topSpeed);
+            
+            
+        }
+        public void colorToLights(int red, int green, int blue){
         if(red > blue && red > green){
             blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
@@ -63,40 +74,17 @@ public class XHardwareMap{
         if(red < green && blue < green){
             blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
         }
-
     }
-
-    public void oilSlick(double forward){
-        double yellowPower = forward - 1 * sensitivity;
-            double greenPower = forward + 1 * sensitivity;
-            yellowMotor.setPower(yellowPower * topSpeed);
-            greenMotor.setPower(greenPower * topSpeed);
-        }
-    
-    public status(int red, int green, int blue){
-        // 1 is red 2 is green 3 is blue 4 is yellow 0 is none
-        int color = 0
-        if(red > 200 && green < 200){
-            color = 1;
-        }
-        if(green > 200 && red < 200){
-            color = 2;
-        }
-        if(blue > 200){
-            color = 3;
-        }
-        if(red > 200 && green > 200){
-            color = 4;
-        }
-        if(red < 200 && green < 200 && blue < 200){
-            color = 0;
-        }
-        return color;
-
+     public void speedBoost(double forward, double strafe, double turn){
+            double yellowPower = 2 * forward - turn * sensitivity;
+            double greenPower = 2 * forward + turn * sensitivity;
+            double redPower = -2 * strafe - turn * sensitivity;
+            double bluePower = -2 * strafe + turn * sensitivity;
+            blueMotor.setPower(bluePower);
+            redMotor.setPower(redPower);
+            yellowMotor.setPower(yellowPower);
+            greenMotor.setPower(greenPower);
     }
-
-
-    
     
 
 }
