@@ -53,8 +53,8 @@ public class XHardwareMap{
             greenMotor.setPower(greenPower * topSpeed);
         }
         public void oilSlick(double strafe, double turn){
-            double redPower = turn;
-            double bluePower = -turn;
+            double redPower = strafe - turn;
+            double bluePower =  strafe + turn;
             double greenPower = turn;
             double yellowPower = -turn;
             blueMotor.setPower(bluePower * topSpeed);
@@ -120,10 +120,10 @@ public class XHardwareMap{
         greenMotor.setPower(greenPower * 0.5 * topSpeed);
     }
     public void bannana(){
-        blueMotor.setPower(1);
+        blueMotor.setPower(-1);
         redMotor.setPower(1);
         yellowMotor.setPower(1);
-        greenMotor.setPower(1);
+        greenMotor.setPower(-1);
     }
 
 }

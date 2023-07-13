@@ -44,6 +44,7 @@ public class XTeleopV2 extends OpMode
     
     @Override
     public void loop() {
+        
         status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue());
         switch(status){
         case 0:
