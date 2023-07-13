@@ -14,10 +14,13 @@ public class XHardwareMap{
     public RevBlinkinLedDriver blinkin = null;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     ColorSensor colorSensor;
+    double topSpeed = 0.7;
+    double sensitivity = 0.2;
+    double acceleration = 0.1;
 
     HardwareMap hwMap = null;
 
-    private ElapsedTime period = new ElapsedTime();
+    private ElapsedTime time = new ElapsedTime();
 
     public void xDriveHardwareMap(){
     }
@@ -40,16 +43,60 @@ public class XHardwareMap{
     }
 
     public void move(double forward, double strafe, double turn){
-            double yellowPower = forward - turn;
-            double greenPower = forward + turn;
-            double redPower = strafe - turn;
-            double bluePower = forward + turn;
-            blueMotor.setPower(bluePower);
-            redMotor.setPower(redPower);
-            yellowMotor.setPower(yellowPower);
-            greenMotor.setPower(greenPower);
+            double yellowPower = forward - turn * sensitivity;
+            double greenPower = forward + turn * sensitivity;
+            double redPower = strafe - turn * sensitivity;
+            double bluePower = forward + turn * sensitivity;
+            blueMotor.setPower(bluePower * topSpeed);
+            redMotor.setPower(redPower * topSpeed);
+            yellowMotor.setPower(yellowPower * topSpeed);
+            greenMotor.setPower(greenPower * topSpeed);
         }
         
+    public void colorToLights(int red, int green, int blue){
+        if(red > blue && red > green){
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        }
+        if(red < blue && blue > green){
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        }
+        if(red < green && blue < green){
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        }
+
+    }
+
+    public void oilSlick(double forward){
+        double yellowPower = forward - 1 * sensitivity;
+            double greenPower = forward + 1 * sensitivity;
+            double redPower = strafe - 1 * sensitivity;
+            double bluePower = forward + 1 * sensitivity;
+            blueMotor.setPower(bluePower * topSpeed);
+            redMotor.setPower(redPower * topSpeed);
+            yellowMotor.setPower(yellowPower * topSpeed);
+            greenMotor.setPower(greenPower * topSpeed);
+        }
+    
+    public status(int red, int green, int blue){
+        // 1 is red 2 is green 3 is blue 4 is yellow
+        int color = 0
+        if(red > 200 && green < 200){
+            color = 1;
+        }
+        if(green > 200 && red < 200){
+            color = 2
+        }
+        if(blue > 200){
+            color = 3
+        }
+        if(red > 200 && green > 200){
+            color = 4
+        }
+        return color;
+    }
+
+
+    
     
 
 }

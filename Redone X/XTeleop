@@ -42,10 +42,14 @@ public class XTeleopV2 extends OpMode
     
     @Override
     public void loop() {
+        
+        robot.move(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+
         telemetry.addData("Red", color.red());
         telemetry.addData("Green", color.green());
         telemetry.addData("Blue", color.blue());
-        
+    
+        robot.colorToLights(color.red(), color.green(), color.blue());
     }
 
     /*
