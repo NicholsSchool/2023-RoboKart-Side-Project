@@ -111,9 +111,6 @@ public class XHardwareMap{
         if(red > 400 && blue > 400 && green > 400 && green < 550 && blue < 550 && red < 550){
             status = 5;
         }
-        if(powerup > 0){
-            status = 6;
-        }
         
         return status;
         

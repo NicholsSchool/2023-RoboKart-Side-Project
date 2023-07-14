@@ -102,7 +102,12 @@ public class XTeleopV2 extends OpMode
         status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue(), powerup);
         switch(status){
         case 0:
-            robot.move(forward, strafe, turn);
+            if(powerup < 0.1 || !(gamepad1.b || gamepad2.left_trigger > 0.1)){
+                robot.move(forward, strafe, turn);
+            }
+            if(powerup > 0.1 && (gamepad1.b || gamepad2.left_trigger > 0.1)){
+                robot.speedBoost(forward, strafe, turn);  
+            }
             break;
         case 1:
             robot.speedBuffer(forward, strafe, turn);
@@ -119,16 +124,11 @@ public class XTeleopV2 extends OpMode
         case 5:
             powerup = 1;
             robot.move(forward, strafe, turn);
-            break;
-        case 6:
-            if(gamepad1.b || gamepad2.left_trigger > 0.1){
-            robot.speedBoost(forward, strafe, turn);
-                
-            }else{
-              robot.move(forward, strafe, turn);  
-            }
+            
             break;
         }
+        
+        
         
         robot.colorToLights(status);
         
