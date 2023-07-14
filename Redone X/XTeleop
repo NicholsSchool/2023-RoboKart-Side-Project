@@ -14,10 +14,11 @@ public class XTeleopV2 extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime powerup = new ElapsedTime();
+    private ElapsedTime powerUp = new ElapsedTime();
     private XHardwareMap robot = new XHardwareMap();
     ColorSensor colorSensor = null;
     int status;
+    double powerup;
     double forward;
     double strafe;
     double turn;
@@ -85,7 +86,20 @@ public class XTeleopV2 extends OpMode
         strafe = 0.7 * Math.abs(finalSpeed) * gamepad1.left_stick_x + 0.7 * Math.abs(finalSpeed) * gamepad2.right_stick_x;
         turn = gamepad1.right_stick_x + gamepad2.left_stick_x;
         
-        status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue());
+        
+        if((gamepad1.b || gamepad2.left_trigger > 0.1) && powerup == 1){
+            powerUp.reset();
+            powerup = powerup -0.1;
+        }
+        if((gamepad1.b || gamepad2.left_trigger > 0.1) && powerup > 0 && powerUp.seconds() > 0.1){
+            powerUp.reset();
+            powerup = powerup -0.1;
+        }
+        if((gamepad1.b || gamepad2.left_trigger > 0.1) && powerup == 0){
+            status = 0;
+        }
+        
+        status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue(), powerup);
         switch(status){
         case 0:
             robot.move(forward, strafe, turn);
@@ -102,6 +116,18 @@ public class XTeleopV2 extends OpMode
         case 4: 
             robot.bannana();
             break;
+        case 5:
+            powerup = 1;
+            robot.move(forward, strafe, turn);
+            break;
+        case 6:
+            if(gamepad1.b || gamepad2.left_trigger > 0.1){
+            robot.speedBoost(forward, strafe, turn);
+                
+            }else{
+              robot.move(forward, strafe, turn);  
+            }
+            break;
         }
         
         robot.colorToLights(status);
@@ -111,6 +137,7 @@ public class XTeleopV2 extends OpMode
         telemetry.addData("red",colorSensor.red());
         telemetry.addData("green",colorSensor.green());
         telemetry.addData("blue",colorSensor.blue());
+        telemetry.addData("powerup",powerup);
     }
 
     /*

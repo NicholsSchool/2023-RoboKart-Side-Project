@@ -93,7 +93,7 @@ public class XHardwareMap{
             yellowMotor.setPower(yellowPower);
             greenMotor.setPower(greenPower);
     }
-    public int status(int red, int green, int blue){
+    public int status(int red, int green, int blue,double powerup){
         //1: red 2: blue 3: green 4: yellow 0: none
         int status = 0;
         if((red > blue && red > green) && red > 300){
@@ -110,6 +110,9 @@ public class XHardwareMap{
         }
         if(red > 400 && blue > 400 && green > 400 && green < 550 && blue < 550 && red < 550){
             status = 5;
+        }
+        if(powerup > 0){
+            status = 6;
         }
         
         return status;
