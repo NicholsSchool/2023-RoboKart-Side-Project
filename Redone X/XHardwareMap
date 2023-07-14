@@ -14,7 +14,7 @@ public class XHardwareMap{
     public RevBlinkinLedDriver blinkin = null;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     ColorSensor colorSensor = null;
-    double topSpeed = 0.4;
+    double topSpeed = 0.6;
     double sensitivity = 0.4;
     double acceleration = 0.01;
 

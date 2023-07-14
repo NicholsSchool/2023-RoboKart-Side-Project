@@ -21,7 +21,7 @@ public class XTeleopV2 extends OpMode
     double strafe;
     double turn;
     double speed;
-    double acceleration = 0.25;
+    double acceleration = 0.1;
     int marioDrive;
     /*
      * Code to run ONCE when the driver hits INIT
@@ -62,19 +62,19 @@ public class XTeleopV2 extends OpMode
         if(!gamepad2.b && !gamepad2.a){
             marioDrive = 0;
         }
-         if(time > 0.1 && (input2 || input3)){
+         if(runtime.seconds() > 0.1 && (input2 || input3)){
             speed = speed + marioDrive * acceleration;
             runtime.reset();
         }
         
         telemetry.addData("marioDrive",marioDrive);
         
-        if(time > 0.1 && input1 != 0){
+        if(runtime.seconds() > 0.1 && input1 != 0){
             speed = speed + input1 * acceleration;
             runtime.reset();
         }
-        if(time > 0.1 && input1 == 0){
-            speed = speed - 0.1 * speed;
+        if(runtime.seconds() > 0.1 && input1 == 0){
+            speed = speed - 0.25 * speed;
             runtime.reset();
         }
         telemetry.addData("speed",speed);
