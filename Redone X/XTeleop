@@ -14,6 +14,7 @@ public class XTeleopV2 extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime powerup = new ElapsedTime();
     private XHardwareMap robot = new XHardwareMap();
     ColorSensor colorSensor = null;
     int status;

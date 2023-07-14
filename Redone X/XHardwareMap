@@ -79,6 +79,9 @@ public class XHardwareMap{
         if(status == 4){
             blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
         }
+        if(status == 5){
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+        }
     }
      public void speedBoost(double forward, double strafe, double turn){
             double yellowPower = 2 * forward - turn * sensitivity;
@@ -104,6 +107,9 @@ public class XHardwareMap{
         }
         if((green > blue && red > blue)&& red > 450 && green > 750){
             status = 4;
+        }
+        if(red > 400 && blue > 400 && green > 400 && green < 550 && blue < 550 && red < 550){
+            status = 5;
         }
         
         return status;
