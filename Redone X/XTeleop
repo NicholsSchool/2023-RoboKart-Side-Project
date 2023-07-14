@@ -93,7 +93,7 @@ public class XTeleopV2 extends OpMode
             robot.speedBuffer(forward, strafe, turn);
             break;
         case 2:
-            robot.oilSlick(gamepad1.left_stick_x,gamepad1.left_stick_y);
+            robot.oilSlick(strafe,turn);
             break;
         case 3:
             robot.speedBoost(forward, strafe, turn);
@@ -107,9 +107,9 @@ public class XTeleopV2 extends OpMode
         
         telemetry.addData("status",status);
     
-        
-        
-        
+        telemetry.addData("red",colorSensor.red());
+        telemetry.addData("green",colorSensor.green());
+        telemetry.addData("blue",colorSensor.blue());
     }
 
     /*
