@@ -17,6 +17,12 @@ public class XTeleopV2 extends OpMode
     private XHardwareMap robot = new XHardwareMap();
     ColorSensor colorSensor = null;
     int status;
+    double forward;
+    double strafe;
+    double turn;
+    double speed;
+    double acceleration = 0.25;
+    int marioDrive;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -44,20 +50,53 @@ public class XTeleopV2 extends OpMode
     
     @Override
     public void loop() {
+        double input1 = gamepad1.left_trigger - gamepad1.right_trigger;
+        boolean input2 = gamepad2.a;
+        boolean input3 = gamepad2.b;
+        if(gamepad2.a){
+            marioDrive = 1;
+        }
+        if(gamepad2.b){
+            marioDrive = -1;
+        }
+        if(!gamepad2.b && !gamepad2.a){
+            marioDrive = 0;
+        }
+         if(time > 0.1 && (input2 || input3)){
+            speed = speed + marioDrive * acceleration;
+            runtime.reset();
+        }
+        
+        telemetry.addData("marioDrive",marioDrive);
+        
+        if(time > 0.1 && input1 != 0){
+            speed = speed + input1 * acceleration;
+            runtime.reset();
+        }
+        if(time > 0.1 && input1 == 0){
+            speed = speed - 0.1 * speed;
+            runtime.reset();
+        }
+        telemetry.addData("speed",speed);
+        double finalSpeed = Range.clip(speed, -1,0.5);
+        
+        forward = finalSpeed;
+        strafe = 0.7 * Math.abs(finalSpeed) * gamepad1.left_stick_x + 0.7 * Math.abs(finalSpeed) * gamepad2.right_stick_x;
+        turn = gamepad1.right_stick_x + gamepad2.left_stick_x;
         
         status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue());
         switch(status){
         case 0:
-            robot.move(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.move(forward, strafe, turn);
             break;
         case 1:
-            robot.speedBuffer(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.speedBuffer(forward, strafe, turn);
             break;
         case 2:
             robot.oilSlick(gamepad1.left_stick_x,gamepad1.left_stick_y);
             break;
         case 3:
-            robot.speedBoost(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.speedBoost(forward, strafe, turn);
             break;
         case 4: 
             robot.bannana();

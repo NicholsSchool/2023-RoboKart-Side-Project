@@ -16,11 +16,11 @@ public class XHardwareMap{
     ColorSensor colorSensor = null;
     double topSpeed = 0.4;
     double sensitivity = 0.4;
-    double acceleration = 0.1;
+    double acceleration = 0.01;
 
     HardwareMap hwMap = null;
 
-    private ElapsedTime period = new ElapsedTime();
+    private ElapsedTime time = new ElapsedTime();
 
     public void xDriveHardwareMap(){
     }
@@ -125,5 +125,6 @@ public class XHardwareMap{
         yellowMotor.setPower(1);
         greenMotor.setPower(-1);
     }
+    
 
 }
