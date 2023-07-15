@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 public class XHardwareMap{
+    //declaring variables, for tweaking use sensitivity and top speed
     public DcMotor redMotor , blueMotor, greenMotor, yellowMotor;
     public RevBlinkinLedDriver blinkin = null;
     RevBlinkinLedDriver.BlinkinPattern pattern;
@@ -41,7 +42,7 @@ public class XHardwareMap{
         blueMotor.setDirection(DcMotor.Direction.REVERSE);
         greenMotor.setDirection(DcMotor.Direction.REVERSE);
     }
-
+        //default move method 
         public void move(double forward, double strafe, double turn){
             double yellowPower = forward - turn * sensitivity;
             double greenPower = forward + turn * sensitivity;
@@ -52,6 +53,7 @@ public class XHardwareMap{
             yellowMotor.setPower(yellowPower * topSpeed);
             greenMotor.setPower(greenPower * topSpeed);
         }
+        //oil slick is meant to make the controls really weird, the inputs matter more in teleop
         public void oilSlick(double strafe, double turn){
             double redPower = strafe - turn;
             double bluePower =  strafe + turn;
@@ -63,6 +65,7 @@ public class XHardwareMap{
             greenMotor.setPower(greenPower * topSpeed);
             
         }
+        //takes status and makes lights those colors
         public void colorToLights(int status){
         if(status == 0){
             blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -83,6 +86,7 @@ public class XHardwareMap{
             blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
         }
     }
+    //method for faster robot 
      public void speedBoost(double forward, double strafe, double turn){
             double yellowPower = 2 * forward - turn * sensitivity;
             double greenPower = 2 * forward + turn * sensitivity;
@@ -93,8 +97,10 @@ public class XHardwareMap{
             yellowMotor.setPower(yellowPower);
             greenMotor.setPower(greenPower);
     }
+    //detects what color you are on
+    //you will need to calibrate these values for your color sensor
     public int status(int red, int green, int blue,double powerup){
-        //1: red 2: blue 3: green 4: yellow 0: none
+        //(1 red) (2 blue) (3 green) (4 yellow) (0 none) (5 purple)
         int status = 0;
         if((red > blue && red > green) && red > 300){
             status = 1;
@@ -115,6 +121,7 @@ public class XHardwareMap{
         return status;
         
     }
+    //slows down speed
     public void speedBuffer(double forward, double strafe, double turn){
         double yellowPower = forward - turn * sensitivity;
         double greenPower = forward + turn * sensitivity;
