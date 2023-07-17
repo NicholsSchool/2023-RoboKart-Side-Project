@@ -98,12 +98,6 @@ public class XHardwareMap{
         return status;
         
     }    
-    public void banana(){
-        blueMotor.setPower(-1);
-        redMotor.setPower(1);
-        yellowMotor.setPower(1);
-        greenMotor.setPower(-1);
-    }
     
 
 }
