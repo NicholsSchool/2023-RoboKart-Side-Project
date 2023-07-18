@@ -59,7 +59,7 @@ public class XTeleopV2 extends OpMode
             double b = gamepad2.b ? 1.0 : 0.0;
             forward = b - a;
         } else {
-            forward = gamepad1.left_trigger - gamepad1.right_trigger;
+            forward = gamepad1.right_trigger - gamepad1.left_trigger;
         }
 
         strafe = 0.7 * Math.abs(forward) * gamepad1.left_stick_x + 0.7 * Math.abs(forward) * gamepad2.right_stick_x;
