@@ -23,18 +23,14 @@ public class XTeleopV2 extends OpMode
     //make instances of elapsed time for acceleration and power up
     //also bring hardware map from XHardwareMap
 
-    private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime powerUp = new ElapsedTime();
     private XHardwareMap robot = new XHardwareMap();
     ColorSensor colorSensor = null;
     int status;
-    double powerup;
     double forward;
     double strafe;
     double turn;
     double speed;
     double acceleration = 0.1;
-    int marioDrive;
     
     //init hardware map from XHardwareMap
     @Override
@@ -51,13 +47,6 @@ public class XTeleopV2 extends OpMode
     @Override
     public void init_loop() {
     }
-
-    
-    @Override
-    public void start() {
-        runtime.reset();
-    }
-
     
     @Override
     public void loop() {
@@ -65,75 +54,25 @@ public class XTeleopV2 extends OpMode
         // input 1 is for the people who want racing game controls
         //input 2 is for the people who want Mario Kart controls 
         
-        double input1 = gamepad1.left_trigger - gamepad1.right_trigger;
-        boolean input2 = gamepad2.a;
-        boolean input3 = gamepad2.b;
-        
-        //since the buttons are booleans lets assing them to ints to work with them in the accel functions
+        if (gamepad2.a || gamepad2.b) {
+            double a = gamepad2.a ? 1.0 : 0.0;
+            double b = gamepad2.b ? 1.0 : 0.0;
+            forward = b - a;
+        } else {
+            forward = gamepad1.left_trigger - gamepad1.right_trigger;
+        }
 
-        if(gamepad2.a){
-            marioDrive = 1;
-        }
-        if(gamepad2.b){
-            marioDrive = -1;
-        }
-        if(!gamepad2.b && !gamepad2.a){
-            marioDrive = 0;
-        }
-        
-        //acceleration code for Mario controls
-         if(runtime.seconds() > 0.1 && (input2 || input3)){
-            speed = speed + marioDrive * acceleration;
-            runtime.reset();
-        }
-        
-        //acceleration code for racing game controls
-        if(runtime.seconds() > 0.1 && input1 != 0){
-            speed = speed + input1 * acceleration;
-            runtime.reset();
-        }
-        //deceleration code for the bot, I didn't even program for Mario controls but it still works
-        if(runtime.seconds() > 0.1 && input1 == 0){
-            speed = speed - 0.25 * speed;
-            runtime.reset();
-        }
-        telemetry.addData("speed",speed);
-        
-        //speed control, keeps it from going over
-        double finalSpeed = Range.clip(speed, -1,0.5);
-        
-        //creating the inputs for our move methods 
-        forward = finalSpeed;
-        strafe = 0.7 * Math.abs(finalSpeed) * gamepad1.left_stick_x + 0.7 * Math.abs(finalSpeed) * gamepad2.right_stick_x;
+        strafe = 0.7 * Math.abs(forward) * gamepad1.left_stick_x + 0.7 * Math.abs(forward) * gamepad2.right_stick_x;
         turn = gamepad1.right_stick_x + gamepad2.left_stick_x;
-        
-        // just some powerup control 
-        //makes it so the trigger decreases the number of time left on the powerup
-        if((gamepad1.b || gamepad2.left_trigger > 0.1) && powerup == 1){
-            powerUp.reset();
-            powerup = powerup -0.1;
-        }
-        if((gamepad1.b || gamepad2.left_trigger > 0.1) && powerup > 0 && powerUp.seconds() > 0.1){
-            powerUp.reset();
-            powerup = powerup -0.1;
-        }
-        if((gamepad1.b || gamepad2.left_trigger > 0.1) && powerup == 0){
-            status = 0;
-        }
         
 
         //status tells us what color the bot is on
-        status = robot.status(colorSensor.red(),colorSensor.green(),colorSensor.blue());
+        status = robot.status(colorSensor.red(), colorSensor.green(), colorSensor.blue());
         
         //all of this is giving the bot different drive modes based on the color (go to XHardwareMap for config of colors)
         switch(status){
         case 0:
-            if(powerup < 0.1 || !(gamepad1.b || gamepad2.left_trigger > 0.1)){
-                robot.move(forward, strafe, turn, 1);
-            }
-            if(powerup > 0.1 && (gamepad1.b || gamepad2.left_trigger > 0.1)){
-                robot.move(forward, strafe, turn, 2);  
-            }
+            robot.move(forward, strafe, turn, 1);
             break;
         case 1:
             robot.move(forward, strafe, turn, 0.5);
@@ -145,12 +84,7 @@ public class XTeleopV2 extends OpMode
             robot.move(forward, strafe, turn, 2);
             break;
         case 4: 
-            robot.move(forward, strafe, turn + 10, 1);
-            break;
-        case 5:
-            powerup = 1;
-            robot.move(forward, strafe, turn, 1);
-            
+            robot.move(forward, strafe, turn + 3, 1);
             break;
         }
         
@@ -163,7 +97,6 @@ public class XTeleopV2 extends OpMode
         telemetry.addData("red",colorSensor.red());
         telemetry.addData("green",colorSensor.green());
         telemetry.addData("blue",colorSensor.blue());
-        telemetry.addData("powerup",powerup);
     }
 
     /*
