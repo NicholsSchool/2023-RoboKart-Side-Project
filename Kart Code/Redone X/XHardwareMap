@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import java.util.concurrent.TimeUnit;
+import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 public class XHardwareMap{
@@ -17,7 +18,7 @@ public class XHardwareMap{
     ColorSensor colorSensor = null;
     double topSpeed = 0.7;
     double sensitivity = 0.4;
-    double acceleration = 0.01;
+    double acceleration = 0.1;
     double accelOutput = 0.0;
 
     HardwareMap hwMap = null;
@@ -97,9 +98,12 @@ public class XHardwareMap{
     
     public double accel(double input){
         if(runtime.seconds() > 0.1){
-            accelOutput = (accelOutput + acceleration) * input;
+            accelOutput = Range.clip(accelOutput + acceleration * input,-1,1);
             runtime.reset();
+        }if(input ==0){
+            accelOutput = 0;
         }
+        
     return accelOutput;
     }
 }

@@ -53,14 +53,15 @@ public class XTeleopV2 extends OpMode
         //create variables that will eventually be used in the move methods
         // input 1 is for the people who want racing game controls
         //input 2 is for the people who want Mario Kart controls 
-        
+        double input;
         if (gamepad2.a || gamepad2.b) {
             double a = gamepad2.a ? 1.0 : 0.0;
             double b = gamepad2.b ? 1.0 : 0.0;
-            forward = b - a;
+            input = b - a;
         } else {
-            forward = gamepad1.right_trigger - gamepad1.left_trigger;
+            input = gamepad1.right_trigger - gamepad1.left_trigger;
         }
+            forward = robot.accel(input);
 
         strafe = 0.7 * Math.abs(forward) * gamepad1.left_stick_x + 0.7 * Math.abs(forward) * gamepad2.right_stick_x;
         turn = gamepad1.right_stick_x + gamepad2.left_stick_x;
@@ -97,6 +98,7 @@ public class XTeleopV2 extends OpMode
         telemetry.addData("red",colorSensor.red());
         telemetry.addData("green",colorSensor.green());
         telemetry.addData("blue",colorSensor.blue());
+        telemetry.addData("forward", forward);
     }
 
     /*
