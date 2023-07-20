@@ -17,7 +17,7 @@ public class XHardwareMap{
     RevBlinkinLedDriver.BlinkinPattern pattern;
     ColorSensor colorSensor = null;
     double topSpeed = 0.7;
-    double sensitivity = 0.4;
+    double sensitivity = 0.2;
     double acceleration = 0.1;
     double accelOutput = 0.0;
 
@@ -81,16 +81,16 @@ public class XHardwareMap{
     public int status(int red, int green, int blue){
         // (0 none) (1 red) (2 blue) (3 green) (4 yellow) (5 purple)
         int status = 0;
-        if((red > blue && red > green) && red > 300){
+        if((red > blue && red > green) && red > 200 && red < 300){
             status = 1;
         }
         if((red < blue && blue > green)&& blue > 500){
             status = 2;
         }
-        if((green > blue && red < green)&& green > 250 && red < blue && green < 500){
+        if((green > blue && red < green)&& green > 300 && red < blue && green < 400){
             status = 3;
         }
-        if((green > blue && red > blue)&& red > 450 && green > 750){
+        if((green > blue && red > blue)&& red > 300 && green > 550){
             status = 4;
         }
         return status;
