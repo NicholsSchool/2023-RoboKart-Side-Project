@@ -1,2 +1,2 @@
 # RoboKart
-All code and software for RoboKart including Robot Code, Field Code, etc.
+All code related to RoboKart
